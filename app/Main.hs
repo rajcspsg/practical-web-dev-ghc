@@ -4,4 +4,4 @@ import qualified MyLib (someFunc)
 import Logger 
 
 main :: IO ()
-main =  Logger.runKatip
+main =  MyLib.someFunc

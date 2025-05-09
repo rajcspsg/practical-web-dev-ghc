@@ -67,18 +67,20 @@ setEmailAsVerified vCode = do
   atomically . runExceptT $ do
     state <- lift $ readTVar tvar
     let unverifieds = stateUnverifiedEmails state
+        mayEmail = lookup vCode unverifieds
     email <- mayEmail `orThrow` D.EmailVerificationErrorInvalidCode
     let auths = stateAuths state
         mayUserId = map fst . find ((email ==) . D.authEmail . snd) $ auths
+    uId <- mayUserId `orThrow` D.EmailVerificationErrorInvalidCode
     let verifieds = stateVerifiedEmails state
         newVerifieds = insertSet email verifieds
-        newUnverifieds = deleteMap vCode unverifieds 
+        newUnverifieds = deleteMap vCode unverifieds
         newState = state 
           { stateUnverifiedEmails = newUnverifieds
           , stateVerifiedEmails = newVerifieds
           }
-      lift $ writeVar tvar newState
-      return (uId, email)  
+    lift $ writeTVar tvar newState
+    return (uId, email) 
 
 findUserByAuth :: InMemory r m
                => D.Auth -> m (Maybe (D.UserId, Bool))
@@ -91,7 +93,7 @@ findUserByAuth auth = do
     Just uId -> do
       let verifieds = stateVerifiedEmails state
           email = D.authEmail auth
-          isVerified = elem email verifieds
+          isVerified =  email `elem` verifieds
       return $ Just (uId, isVerified)
 
 findEmailFromUserId :: InMemory r m
@@ -124,7 +126,7 @@ newSession :: InMemory r m
            => D.UserId -> m D.SessionId
 newSession uId = do
   tvar <- asks getter
-  sId <- liftIO $ ((tshow uId) <>) <$> stringRandomIO "[A-Za-z0-9]{16}"
+  sId <- liftIO $ (tshow uId <>) <$> stringRandomIO "[A-Za-z0-9]{16}"
   atomically $ do
     state <- readTVar tvar
     let sessions = stateSessions state

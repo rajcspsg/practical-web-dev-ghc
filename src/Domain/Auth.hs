@@ -109,7 +109,7 @@ register auth = runExceptT $ do
     $(logTM) InfoS  $ ls (rawEmail email) <> " is registered successfully"
 
 verifyEmail :: (KatipContext m, AuthRepo m)
-            => VerificationCode -> m (Either EmailVerificationError ())
+            => VerificationCode -> m (Either EmailVerificationError (UserId, Email))
 verifyEmail = setEmailAsVerified 
 
 login :: (KatipContext m, AuthRepo m, SessionRepo m)
