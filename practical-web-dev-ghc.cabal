@@ -23,12 +23,13 @@ library
                     , Domain.Validation
                     , Adapter.InMemory.Auth
 
-    default-extensions: TemplateHaskell
-                      , ConstraintKinds
+    default-extensions: ConstraintKinds
                       , FlexibleContexts
                       , NoImplicitPrelude
                       , OverloadedStrings
+                      , QuasiQuotes
                       , TemplateHaskell
+
     -- other-modules:
     -- other-extensions:
     build-depends:    base ^>=4.21.0.0

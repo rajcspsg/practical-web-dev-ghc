@@ -29,6 +29,7 @@ import ClassyPrelude
 import Domain.Validation
 import Text.Regex.PCRE.Heavy
 import Control.Monad.Except
+import Katip
 
 newtype Email = Email { emailRaw :: Text } deriving (Show, Eq, Ord)
 
@@ -109,7 +110,7 @@ register auth = runExceptT $ do
 
 verifyEmail :: (AuthRepo m)
             => VerificationCode -> m (Either EmailVerificationError ())
-verifyEmail = setEmailAsVerified
+verifyEmail = undefined 
 
 login :: (AuthRepo m, SessionRepo m)
       => Auth -> m (Either LoginError SessionId)
