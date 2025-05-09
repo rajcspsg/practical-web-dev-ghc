@@ -108,18 +108,21 @@ register auth = runExceptT $ do
   withUserIdContext uId $
     $(logTM) InfoS  $ ls (rawEmail email) <> " is registered successfully"
 
-verifyEmail :: (AuthRepo m)
+verifyEmail :: (KatipContext m, AuthRepo m)
             => VerificationCode -> m (Either EmailVerificationError ())
-verifyEmail = undefined 
+verifyEmail = setEmailAsVerified 
 
-login :: (AuthRepo m, SessionRepo m)
+login :: (KatipContext m, AuthRepo m, SessionRepo m)
       => Auth -> m (Either LoginError SessionId)
 login auth = runExceptT $ do
   result <- lift $ findUserByAuth auth
   case result of
     Nothing -> throwError LoginErrorInvalidAuth
     Just (_, False) -> throwError LoginErrorEmailNotVerified
-    Just (uId, _) -> lift $ newSession uId
+    Just (uId, _) -> withUserIdContext uId . lift $ do
+      sId <- newSession uId
+      $(logTM) InfoS $ ls (rawEmail $ authEmail auth) <> " logged in successfully"
+      return sId
 
 resolveSessionId :: (SessionRepo m) => SessionId -> m (Maybe UserId)
 resolveSessionId = findUserIdBySessionId

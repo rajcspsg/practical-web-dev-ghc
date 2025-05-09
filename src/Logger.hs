@@ -1,10 +1,9 @@
-{-# LANGUAGE OverloadedStrings #-}
-
 module Logger where
 
 import Control.Exception
 import Katip
 import System.IO
+import Prelude(($))
 
 runKatip :: IO ()
 runKatip = withKatip app
@@ -23,3 +22,5 @@ withKatip app =
 logSomething :: (KatipContext m) => m ()
 logSomething = do
   $(logTM) InfoS "Log in no namespace"
+  katipAddNamespace "ns1" $ $(logTM) WarningS "Warning in ns1"
+  
