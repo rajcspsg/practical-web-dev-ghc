@@ -20,7 +20,7 @@ jobs:
           ghc-version: "9.12.2"
           cabal-version: "3.12"
       - name: "Install PCRE"
-        run: "sudo apt install pcre -y"
+        run: "sudo apt install libpcre3-dev libpcre++-dev -y"
       - name: Cache
         uses: actions/cache@v3
         env:
