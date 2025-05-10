@@ -1,0 +1,124 @@
+cabal build
+Resolving dependencies...
+Build profile: -w ghc-9.10.1 -O1
+In order, the following will be built (use -v for more details):
+ - postgresql-libpq-configure-0.11 (lib:postgresql-libpq-configure) (requires build)
+ - postgresql-libpq-0.11.0.0 (lib) (requires build)
+ - postgresql-simple-0.7.0.0 (lib) (requires build)
+ - postgresql-migration-0.2.1.8 (lib) (requires build)
+ - practical-web-dev-ghc-0.1.0.0 (lib) (first run)
+ - practical-web-dev-ghc-0.1.0.0 (exe:practical-web-dev-ghc) (first run)
+Starting     postgresql-libpq-configure-0.11 (all, legacy fallback: build-type is Configure)
+Building     postgresql-libpq-configure-0.11 (all, legacy fallback: build-type is Configure)
+Installing   postgresql-libpq-configure-0.11 (all, legacy fallback: build-type is Configure)
+Completed    postgresql-libpq-configure-0.11 (all, legacy fallback: build-type is Configure)
+Starting     postgresql-libpq-0.11.0.0 (lib)
+Building     postgresql-libpq-0.11.0.0 (lib)
+Installing   postgresql-libpq-0.11.0.0 (lib)
+Completed    postgresql-libpq-0.11.0.0 (lib)
+Starting     postgresql-simple-0.7.0.0 (lib)
+Building     postgresql-simple-0.7.0.0 (lib)
+Installing   postgresql-simple-0.7.0.0 (lib)
+Completed    postgresql-simple-0.7.0.0 (lib)
+Starting     postgresql-migration-0.2.1.8 (lib)
+Building     postgresql-migration-0.2.1.8 (lib)
+Installing   postgresql-migration-0.2.1.8 (lib)
+Completed    postgresql-migration-0.2.1.8 (lib)
+Configuring library for practical-web-dev-ghc-0.1.0.0...
+Preprocessing library for practical-web-dev-ghc-0.1.0.0...
+Building library for practical-web-dev-ghc-0.1.0.0...
+<no location info>: warning: [GHC-32850] [-Wmissing-home-modules]
+    These modules are needed for compilation but not listed in your .cabal file's other-modules for ‘practical-web-dev-ghc-0.1.0.0-inplace’ :
+        Adapter.PostgreSQL.Auth
+
+[1 of 6] Compiling Domain.Validation ( src/Domain/Validation.hs, dist-newstyle/build/x86_64-linux/ghc-9.10.1/practical-web-dev-ghc-0.1.0.0/build/Domain/Validation.o, dist-newstyle/build/x86_64-linux/ghc-9.10.1/practical-web-dev-ghc-0.1.0.0/build/Domain/Validation.dyn_o )
+[2 of 6] Compiling Domain.Auth      ( src/Domain/Auth.hs, dist-newstyle/build/x86_64-linux/ghc-9.10.1/practical-web-dev-ghc-0.1.0.0/build/Domain/Auth.o, dist-newstyle/build/x86_64-linux/ghc-9.10.1/practical-web-dev-ghc-0.1.0.0/build/Domain/Auth.dyn_o )
+[3 of 6] Compiling Adapter.PostgreSQL.Auth ( src/Adapter/PostgreSQL/Auth.hs, dist-newstyle/build/x86_64-linux/ghc-9.10.1/practical-web-dev-ghc-0.1.0.0/build/Adapter/PostgreSQL/Auth.o, dist-newstyle/build/x86_64-linux/ghc-9.10.1/practical-web-dev-ghc-0.1.0.0/build/Adapter/PostgreSQL/Auth.dyn_o )
+src/Adapter/PostgreSQL/Auth.hs:34:16: warning: [GHC-68441] [-Wdeprecations]
+    In the use of ‘createPool’ (imported from Data.Pool):
+    Deprecated: "Use newPool instead"
+   |
+34 |     initPool = createPool openConn closeConn
+   |                ^^^^^^^^^^
+
+[4 of 6] Compiling Adapter.InMemory.Auth ( src/Adapter/InMemory/Auth.hs, dist-newstyle/build/x86_64-linux/ghc-9.10.1/practical-web-dev-ghc-0.1.0.0/build/Adapter/InMemory/Auth.o, dist-newstyle/build/x86_64-linux/ghc-9.10.1/practical-web-dev-ghc-0.1.0.0/build/Adapter/InMemory/Auth.dyn_o )
+[5 of 6] Compiling Logger           ( src/Logger.hs, dist-newstyle/build/x86_64-linux/ghc-9.10.1/practical-web-dev-ghc-0.1.0.0/build/Logger.o, dist-newstyle/build/x86_64-linux/ghc-9.10.1/practical-web-dev-ghc-0.1.0.0/build/Logger.dyn_o )
+[6 of 6] Compiling MyLib            ( src/MyLib.hs, dist-newstyle/build/x86_64-linux/ghc-9.10.1/practical-web-dev-ghc-0.1.0.0/build/MyLib.o, dist-newstyle/build/x86_64-linux/ghc-9.10.1/practical-web-dev-ghc-0.1.0.0/build/MyLib.dyn_o )
+src/MyLib.hs:59:22: warning: [GHC-68441] [-Wdeprecations]
+    In the use of ‘undefined’ (imported from ClassyPrelude):
+    Deprecated: "It is highly recommended that you either avoid partial functions or provide meaningful error messages"
+   |
+59 |   let email = either undefined id $ mkEmail "ecky@test.com"
+   |                      ^^^^^^^^^
+
+src/MyLib.hs:60:22: warning: [GHC-68441] [-Wdeprecations]
+    In the use of ‘undefined’ (imported from ClassyPrelude):
+    Deprecated: "It is highly recommended that you either avoid partial functions or provide meaningful error messages"
+   |
+60 |       passw = either undefined id $ mkPassword "1234ABCDefgh"
+   |                      ^^^^^^^^^
+
+src/MyLib.hs:62:3: warning: [GHC-81995] [-Wunused-do-bind]
+    A do-notation statement discarded a result of type
+      ‘Either RegistrationError ()’
+    Suggested fix: Suppress this warning by saying ‘_ <- register auth’
+   |
+62 |   register auth
+   |   ^^^^^^^^^^^^^
+
+src/MyLib.hs:64:3: warning: [GHC-81995] [-Wunused-do-bind]
+    A do-notation statement discarded a result of type
+      ‘Either EmailVerificationError (UserId, Email)’
+    Suggested fix:
+      Suppress this warning by saying ‘_ <- verifyEmail vCode’
+   |
+64 |   verifyEmail vCode
+   |   ^^^^^^^^^^^^^^^^^
+
+Configuring executable 'practical-web-dev-ghc' for practical-web-dev-ghc-0.1.0.0...
+Preprocessing executable 'practical-web-dev-ghc' for practical-web-dev-ghc-0.1.0.0...
+Building executable 'practical-web-dev-ghc' for practical-web-dev-ghc-0.1.0.0...
+[1 of 1] Compiling Main             ( app/Main.hs, dist-newstyle/build/x86_64-linux/ghc-9.10.1/practical-web-dev-ghc-0.1.0.0/x/practical-web-dev-ghc/build/practical-web-dev-ghc/practical-web-dev-ghc-tmp/Main.o )
+app/Main.hs:4:1: warning: [GHC-66111] [-Wunused-imports]
+    The import of ‘Logger’ is redundant
+      except perhaps to import instances from ‘Logger’
+    To import instances alone, use: import Logger()
+  |
+4 | import Logger 
+  | ^^^^^^^^^^^^^
+
+[2 of 2] Linking dist-newstyle/build/x86_64-linux/ghc-9.10.1/practical-web-dev-ghc-0.1.0.0/x/practical-web-dev-ghc/build/practical-web-dev-ghc/practical-web-dev-ghc
+/usr/bin/ld.bfd: /home/raj/Coding/haskell/practical-web-dev-ghc/dist-newstyle/build/x86_64-linux/ghc-9.10.1/practical-web-dev-ghc-0.1.0.0/build/libHSpractical-web-dev-ghc-0.1.0.0-inplace.a(MyLib.o): in function `practicalzmwebzmdevzmghczm0zi1zi0zi0zminplace_MyLib_zdfFunctorAppzuzdszdfFunctorReaderTzuzdczlzd_info':
+(.text+0x2bd4): undefined reference to `practicalzmwebzmdevzmghczm0zi1zi0zi0zminplace_AdapterziPostgreSQLziAuth_zdwfindUserByAuth_closure'
+/usr/bin/ld.bfd: /home/raj/Coding/haskell/practical-web-dev-ghc/dist-newstyle/build/x86_64-linux/ghc-9.10.1/practical-web-dev-ghc-0.1.0.0/build/libHSpractical-web-dev-ghc-0.1.0.0-inplace.a(MyLib.o): in function `practicalzmwebzmdevzmghczm0zi1zi0zi0zminplace_MyLib_zdfAuthRepoAppzuzdcfindUserByAuth_info':
+(.text+0x2c0c): undefined reference to `practicalzmwebzmdevzmghczm0zi1zi0zi0zminplace_AdapterziPostgreSQLziAuth_zdwfindUserByAuth_closure'
+/usr/bin/ld.bfd: /home/raj/Coding/haskell/practical-web-dev-ghc/dist-newstyle/build/x86_64-linux/ghc-9.10.1/practical-web-dev-ghc-0.1.0.0/build/libHSpractical-web-dev-ghc-0.1.0.0-inplace.a(MyLib.o): in function `practicalzmwebzmdevzmghczm0zi1zi0zi0zminplace_MyLib_someFunc2_info':
+(.text+0xff94): undefined reference to `practicalzmwebzmdevzmghczm0zi1zi0zi0zminplace_AdapterziPostgreSQLziAuth_migrate2_closure'
+/usr/bin/ld.bfd: /home/raj/Coding/haskell/practical-web-dev-ghc/dist-newstyle/build/x86_64-linux/ghc-9.10.1/practical-web-dev-ghc-0.1.0.0/build/libHSpractical-web-dev-ghc-0.1.0.0-inplace.a(MyLib.o): in function `practicalzmwebzmdevzmghczm0zi1zi0zi0zminplace_MyLib_zdfAuthRepoAppzuzdcfindUserByAuth_info':
+(.text+0x2c32): undefined reference to `practicalzmwebzmdevzmghczm0zi1zi0zi0zminplace_AdapterziPostgreSQLziAuth_zdwfindUserByAuth_info'
+/usr/bin/ld.bfd: /home/raj/Coding/haskell/practical-web-dev-ghc/dist-newstyle/build/x86_64-linux/ghc-9.10.1/practical-web-dev-ghc-0.1.0.0/build/libHSpractical-web-dev-ghc-0.1.0.0-inplace.a(MyLib.o): in function `practicalzmwebzmdevzmghczm0zi1zi0zi0zminplace_MyLib_zdfAuthRepoAppzuzdcfindEmailFromUserId_info':
+(.text+0x2f5e): undefined reference to `practicalzmwebzmdevzmghczm0zi1zi0zi0zminplace_AdapterziPostgreSQLziAuth_findEmailFromUserId_info'
+/usr/bin/ld.bfd: /home/raj/Coding/haskell/practical-web-dev-ghc/dist-newstyle/build/x86_64-linux/ghc-9.10.1/practical-web-dev-ghc-0.1.0.0/build/libHSpractical-web-dev-ghc-0.1.0.0-inplace.a(MyLib.o): in function `practicalzmwebzmdevzmghczm0zi1zi0zi0zminplace_MyLib_zdfAuthRepoAppzuzdcsetEmailAsVerified_info':
+(.text+0x2fbe): undefined reference to `practicalzmwebzmdevzmghczm0zi1zi0zi0zminplace_AdapterziPostgreSQLziAuth_setEmailAsVerified_info'
+/usr/bin/ld.bfd: /home/raj/Coding/haskell/practical-web-dev-ghc/dist-newstyle/build/x86_64-linux/ghc-9.10.1/practical-web-dev-ghc-0.1.0.0/build/libHSpractical-web-dev-ghc-0.1.0.0-inplace.a(MyLib.o): in function `practicalzmwebzmdevzmghczm0zi1zi0zi0zminplace_MyLib_zdfAuthRepoAppzuzdcaddAuth_info':
+(.text+0x301e): undefined reference to `practicalzmwebzmdevzmghczm0zi1zi0zi0zminplace_AdapterziPostgreSQLziAuth_addAuth_info'
+/usr/bin/ld.bfd: /home/raj/Coding/haskell/practical-web-dev-ghc/dist-newstyle/build/x86_64-linux/ghc-9.10.1/practical-web-dev-ghc-0.1.0.0/build/libHSpractical-web-dev-ghc-0.1.0.0-inplace.a(MyLib.o): in function `practicalzmwebzmdevzmghczm0zi1zi0zi0zminplace_MyLib_someFunc1_info':
+(.text+0x1045f): undefined reference to `practicalzmwebzmdevzmghczm0zi1zi0zi0zminplace_AdapterziPostgreSQLziAuth_withPool_info'
+/usr/bin/ld.bfd: /home/raj/Coding/haskell/practical-web-dev-ghc/dist-newstyle/build/x86_64-linux/ghc-9.10.1/practical-web-dev-ghc-0.1.0.0/build/libHSpractical-web-dev-ghc-0.1.0.0-inplace.a(MyLib.o):(.data+0x3e8): undefined reference to `practicalzmwebzmdevzmghczm0zi1zi0zi0zminplace_AdapterziPostgreSQLziAuth_Config_con_info'
+/usr/bin/ld.bfd: /home/raj/Coding/haskell/practical-web-dev-ghc/dist-newstyle/build/x86_64-linux/ghc-9.10.1/practical-web-dev-ghc-0.1.0.0/build/libHSpractical-web-dev-ghc-0.1.0.0-inplace.a(MyLib.o):(.data+0xe68): undefined reference to `practicalzmwebzmdevzmghczm0zi1zi0zi0zminplace_AdapterziPostgreSQLziAuth_findEmailFromUserId_closure'
+/usr/bin/ld.bfd: /home/raj/Coding/haskell/practical-web-dev-ghc/dist-newstyle/build/x86_64-linux/ghc-9.10.1/practical-web-dev-ghc-0.1.0.0/build/libHSpractical-web-dev-ghc-0.1.0.0-inplace.a(MyLib.o):(.data+0xea8): undefined reference to `practicalzmwebzmdevzmghczm0zi1zi0zi0zminplace_AdapterziPostgreSQLziAuth_setEmailAsVerified_closure'
+/usr/bin/ld.bfd: /home/raj/Coding/haskell/practical-web-dev-ghc/dist-newstyle/build/x86_64-linux/ghc-9.10.1/practical-web-dev-ghc-0.1.0.0/build/libHSpractical-web-dev-ghc-0.1.0.0-inplace.a(MyLib.o):(.data+0xee8): undefined reference to `practicalzmwebzmdevzmghczm0zi1zi0zi0zminplace_AdapterziPostgreSQLziAuth_addAuth_closure'
+/usr/bin/ld.bfd: /home/raj/Coding/haskell/practical-web-dev-ghc/dist-newstyle/build/x86_64-linux/ghc-9.10.1/practical-web-dev-ghc-0.1.0.0/build/libHSpractical-web-dev-ghc-0.1.0.0-inplace.a(MyLib.o):(.data+0x18b8): undefined reference to `practicalzmwebzmdevzmghczm0zi1zi0zi0zminplace_AdapterziPostgreSQLziAuth_migrate2_closure'
+/usr/bin/ld.bfd: /home/raj/Coding/haskell/practical-web-dev-ghc/dist-newstyle/build/x86_64-linux/ghc-9.10.1/practical-web-dev-ghc-0.1.0.0/build/libHSpractical-web-dev-ghc-0.1.0.0-inplace.a(MyLib.o):(.data+0x18d8): undefined reference to `practicalzmwebzmdevzmghczm0zi1zi0zi0zminplace_AdapterziPostgreSQLziAuth_withPool_closure'
+collect2: error: ld returned 1 exit status
+ghc-9.10.1: `gcc' failed in phase `Linker'. (Exit code: 1)
+HasCallStack backtrace:
+  collectBacktraces, called at libraries/ghc-internal/src/GHC/Internal/Exception.hs:92:13 in ghc-internal:GHC.Internal.Exception
+  toExceptionWithBacktrace, called at libraries/ghc-internal/src/GHC/Internal/IO.hs:260:11 in ghc-internal:GHC.Internal.IO
+  throwIO, called at libraries/exceptions/src/Control/Monad/Catch.hs:371:12 in exceptions-0.10.7-7317:Control.Monad.Catch
+  throwM, called at libraries/exceptions/src/Control/Monad/Catch.hs:860:84 in exceptions-0.10.7-7317:Control.Monad.Catch
+  onException, called at compiler/GHC/Driver/Make.hs:2981:23 in ghc-9.10.1-803c:GHC.Driver.Make
+
+
+Error: [Cabal-7125]
+Failed to build exe:practical-web-dev-ghc from practical-web-dev-ghc-0.1.0.0.
