@@ -15,9 +15,6 @@ extra-doc-files:    CHANGELOG.md
 common warnings
     ghc-options: -Wall
 
-package postgresql-libpq
-  flags: +use-pkg-config
-
 library
     import:           warnings
     exposed-modules:  MyLib
@@ -35,7 +32,7 @@ library
 
     -- other-modules:
     -- other-extensions:
-    build-depends:    base >= 4.19.0.0
+    build-depends:    base >= 4.20.0.0
                     , katip >= 0.8.8.2
                     , string-random == 0.1.4.4
                     , mtl
@@ -46,32 +43,28 @@ library
                     , time-lens
                     , resource-pool
                     , postgresql-simple
+                    , exceptions
+                    , postgresql-migration
 
     hs-source-dirs:   src
-    default-language: GHC2024
+    default-language: GHC2021
 
 executable practical-web-dev-ghc
     import:           warnings
     main-is:          Main.hs
     -- other-modules:
     -- other-extensions:
-    default-extensions: ConstraintKinds
-                      , FlexibleContexts
-                      , NoImplicitPrelude
-                      , OverloadedStrings
-                      , QuasiQuotes
-                      , TemplateHaskell
 
     build-depends:
         base >= 4.19.0.0,
         practical-web-dev-ghc
 
     hs-source-dirs:   app
-    default-language: GHC2024
+    default-language: GHC2021
 
 test-suite practical-web-dev-ghc-test
     import:           warnings
-    default-language: GHC2024
+    default-language: GHC2021
     -- other-modules:
     -- other-extensions:
     type:             exitcode-stdio-1.0
