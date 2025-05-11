@@ -15,6 +15,16 @@ data EmailVerificationPayload = EmailVerificationPayload
   , emailVerificationPayloadVerificationCode :: Text
   }
 
+-- JSON serde
+
+$(let structName = fromMaybe "" . lastMay . splitElem '.' . show $ ''EmailVerificationPayload 
+      lowercaseFirst (x:xs) = toLower [x] <> xs
+      lowercaseFirst xs = xs
+      options = defaultOptions 
+                  { fieldLabelModifier = lowercaseFirst . drop (length structName)
+                  } 
+  in  deriveJSON options ''EmailVerificationPayload)
+
 init  :: (M.InMemory r m, KatipContext m, Control.Monad.Catch.MonadCatch m, MonadUnliftIO m)
       => State -> (m Bool -> IO Bool) -> IO ()
 init state runner = do
@@ -40,13 +50,3 @@ notifyEmailVerification :: (Rabbit r m) => D.Email -> D.VerificationCode -> m ()
 notifyEmailVerification email vCode =
   let payload = EmailVerificationPayload (D.rawEmail email) vCode
   in  publish "auth" "userRegistered" payload
-
--- JSON serde
-
-$(let structName = fromMaybe "" . lastMay . splitElem '.' . show $ ''EmailVerificationPayload 
-      lowercaseFirst (x:xs) = toLower [x] <> xs
-      lowercaseFirst xs = xs
-      options = defaultOptions 
-                  { fieldLabelModifier = lowercaseFirst . drop (length structName)
-                  } 
-  in  deriveJSON options ''EmailVerificationPayload)
