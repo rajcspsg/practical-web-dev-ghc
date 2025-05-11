@@ -1,4 +1,4 @@
-module MyLib (someFunc) where
+module MyLib (main) where
 
 import ClassyPrelude
 import qualified Adapter.InMemory.Auth as M
@@ -8,12 +8,16 @@ import Katip
 import Control.Monad
 import Control.Monad.Catch
 import Control.Monad.Extra
+import qualified Adapter.RabbitMQ.Common as MQ
+import qualified Adapter.RabbitMQ.Auth as MQAuth
+import qualified Adapter.Redis.Auth as Redis
 
-type State = (PG.State, TVar M.State)
+type State = (PG.State, Redis.State, MQ.State, TVar M.State)
+
 newtype App a = App
   { unApp :: ReaderT State (KatipContextT IO) a
   } deriving ( Applicative, Functor, Monad, MonadReader State, MonadIO, MonadFail
-             , KatipContext, Katip, MonadThrow)
+             , KatipContext, Katip, MonadThrow, MonadCatch, MonadUnliftIO)
 
 run :: LogEnv -> State -> App a -> IO a
 run le state 
@@ -28,7 +32,7 @@ instance AuthRepo App where
   findEmailFromUserId = PG.findEmailFromUserId
 
 instance EmailVerificationNotif App where
-  notifyEmailVerification = M.notifyEmailVerification
+  notifyEmailVerification = MQAuth.notifyEmailVerification
 
 instance SessionRepo App where
   newSession = M.newSession
@@ -43,10 +47,14 @@ withKatip =
       stdoutScribe <- mkHandleScribe ColorIfTerminal stdout (permitItem InfoS) V2
       registerScribe "stdout" stdoutScribe defaultScribeSettings logEnv
 
-someFunc :: IO ()
-someFunc = withKatip $ \le -> do
+withState :: (LogEnv -> State -> IO ()) -> IO ()
+withState action = withKatip $ \le -> do
   mState <- newTVarIO M.initialState
-  PG.withState pgCfg $ \pgState -> run le (pgState, mState) action
+  PG.withState pgCfg $ \pgState -> 
+    Redis.withState redisCfg $ \redisState ->
+      MQ.withState mqCfg 16 $ \mqState -> do
+        let state = (pgState, redisState, mqState, mState)
+        action le state
   where
     pgCfg = PG.Config
         {PG.configUrl = "postgresql://localhost:5432/postgres"
@@ -56,16 +64,32 @@ someFunc = withKatip $ \le -> do
        , PG.configUser = "postgres"
        , PG.configPassword = "postgres"
         }
-  
+    redisCfg = "redis://localhost:6379/0"
+    mqCfg = "amqp://guest:guest@localhost:5672/%2F"
+
+
 action :: App ()
 action = do
   let email = either undefined id $ mkEmail "ecky2@test.com"
       passw = either undefined id $ mkPassword "1234ABCDefgh"
       auth = Auth email passw
   register auth
-  vCode <- M.getNotificationsForEmail email
-  print vCode
+  vCode <- pollNotif email
+  verifyEmail vCode
   Right session <- login auth
   Just uId <- resolveSessionId session
   Just registeredEmail <- getUser uId
   print (session, uId, registeredEmail)
+  where
+    pollNotif email = do
+      result <- M.getNotificationsForEmail email
+      case result of
+        Nothing -> return "Nothing"
+        Just vCode -> return vCode
+
+main :: IO ()
+main = 
+  withState $ \le state@(_, _, _, _) -> do
+    let runner = run le state
+   -- MQAuth.init mqState runner
+    runner action

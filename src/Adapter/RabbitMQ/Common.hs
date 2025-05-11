@@ -24,7 +24,7 @@ withState connUri prefetchCount action = ClassyPrelude.bracket initState destroy
             return (publisher, consumer)
         
         openConnAndChan  = do
-            conn <- openConnection "127.0.0.1" "/" "guest" "guest"
+            conn <- openConnection connUri "/" "guest" "guest"
             chan <- openChannel conn
             confirmSelect chan False
             qos chan 0 (fromInteger prefetchCount) True

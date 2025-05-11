@@ -54,6 +54,7 @@ library
                     , amqp
                     , aeson
                     , lifted-base
+                    , scotty
 
     hs-source-dirs:   src
     default-language: GHC2021
