@@ -24,6 +24,8 @@ library
                     , Adapter.InMemory.Auth
                     , Adapter.PostgreSQL.Auth
                     , Adapter.Redis.Auth
+                    , Adapter.RabbitMQ.Common
+                    , Adapter.RabbitMQ.Auth
 
     default-extensions: ConstraintKinds
                       , FlexibleContexts
@@ -50,6 +52,8 @@ library
                     , extra
                     , hedis
                     , amqp
+                    , aeson
+                    , lifted-base
 
     hs-source-dirs:   src
     default-language: GHC2021
