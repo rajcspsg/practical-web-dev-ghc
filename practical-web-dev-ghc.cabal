@@ -36,9 +36,11 @@ library
 
     -- other-modules:
     -- other-extensions:
-    build-depends:    base >= 4.20.0.0
-                    , katip >= 0.8.8.2
-                    , string-random == 0.1.4.4
+    build-depends:    base >= 4.18.0.0
+                    , katip >= 0.8.7.0
+                    , text >= 2.0.0
+                    , digestive-functors >= 0.8.3.0
+                    , string-random 
                     , mtl
                     , data-has
                     , classy-prelude
@@ -55,6 +57,11 @@ library
                     , aeson
                     , lifted-base
                     , scotty
+                    , http-types
+                    , cookie
+                    , wai
+                    , wai-extra
+                    , blaze-builder
 
     hs-source-dirs:   src
     default-language: GHC2021
@@ -66,7 +73,7 @@ executable practical-web-dev-ghc
     -- other-extensions:
 
     build-depends:
-        base >= 4.19.0.0,
+        base >= 4.18.0.0,
         practical-web-dev-ghc
 
     hs-source-dirs:   app
@@ -81,5 +88,5 @@ test-suite practical-web-dev-ghc-test
     hs-source-dirs:   test
     main-is:          Main.hs
     build-depends:
-        base >= 4.19.0.0,
+        base >= 4.18.0.0,
         practical-web-dev-ghc
