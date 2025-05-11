@@ -15,10 +15,12 @@ type State = Pool Connection
 type PG r m = (Has State r, MonadReader r m, MonadIO m, Control.Monad.Catch.MonadThrow m)
 
 data Config = Config
-  { configUrl :: ByteString
+  { configUrl :: String
   , configStripeCount :: Int
   , configMaxOpenConnPerStripe :: Int
   , configIdleConnTimeout :: NominalDiffTime
+  , configUser:: String
+  , configPassword :: String
   }
 
 withState :: Config -> (State -> IO a) -> IO a
@@ -36,7 +38,8 @@ withPool cfg action =
                 (configIdleConnTimeout cfg)
                 (configMaxOpenConnPerStripe cfg)
     cleanPool = destroyAllResources
-    openConn = connectPostgreSQL (configUrl cfg)
+    openConn = connect $ defaultConnectInfo {connectUser = configUser cfg
+                                             , connectPassword = configPassword cfg}
     closeConn = close
 
 withConn :: PG r m => (Connection -> IO a) -> m a

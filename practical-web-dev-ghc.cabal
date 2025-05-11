@@ -22,6 +22,8 @@ library
                     , Domain.Auth
                     , Domain.Validation
                     , Adapter.InMemory.Auth
+                    , Adapter.PostgreSQL.Auth
+                    , Adapter.Redis.Auth
 
     default-extensions: ConstraintKinds
                       , FlexibleContexts
@@ -45,6 +47,9 @@ library
                     , postgresql-simple
                     , exceptions
                     , postgresql-migration
+                    , extra
+                    , hedis
+                    , amqp
 
     hs-source-dirs:   src
     default-language: GHC2021

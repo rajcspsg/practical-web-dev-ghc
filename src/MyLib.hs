@@ -7,6 +7,7 @@ import Domain.Auth
 import Katip
 import Control.Monad
 import Control.Monad.Catch
+import Control.Monad.Extra
 
 type State = (PG.State, TVar M.State)
 newtype App a = App
@@ -48,20 +49,22 @@ someFunc = withKatip $ \le -> do
   PG.withState pgCfg $ \pgState -> run le (pgState, mState) action
   where
     pgCfg = PG.Config
-        {PG.configUrl = "postgresql://user-name:strong-password/localhost:5432/hauth"
+        {PG.configUrl = "postgresql://localhost:5432/postgres"
        , PG.configStripeCount = 2
        , PG.configMaxOpenConnPerStripe = 5
        , PG.configIdleConnTimeout = 10
+       , PG.configUser = "postgres"
+       , PG.configPassword = "postgres"
         }
   
 action :: App ()
 action = do
-  let email = either undefined id $ mkEmail "ecky@test.com"
+  let email = either undefined id $ mkEmail "ecky2@test.com"
       passw = either undefined id $ mkPassword "1234ABCDefgh"
       auth = Auth email passw
   register auth
-  Just vCode <- M.getNotificationsForEmail email
-  verifyEmail vCode
+  vCode <- M.getNotificationsForEmail email
+  print vCode
   Right session <- login auth
   Just uId <- resolveSessionId session
   Just registeredEmail <- getUser uId
